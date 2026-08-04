@@ -12,8 +12,10 @@ class MovieHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory and event.src_path.endswith(".mkv"):
             logger.info(f"New MKV detected: {event.src_path}, waiting for transfer to complete...")
-            self.wait_for_file_transfer(event.src_path)
-            self.add_to_queue(event.src_path)
+            if self.wait_for_file_transfer(event.src_path):
+                self.add_to_queue(event.src_path)
+            else:
+                logger.warning(f"File {event.src_path} was removed or failed transfer. Aborting queue.")
             
     def wait_for_file_transfer(self, file_path, timeout_secs=300):
         # Wait until the file size hasn't changed for 3 seconds
@@ -31,12 +33,14 @@ class MovieHandler(FileSystemEventHandler):
                 
                 if stable_count >= 3:
                     logger.info(f"File transfer complete for {file_path}")
-                    return
+                    return True
             except OSError:
-                pass
+                # File might have been deleted mid-transfer
+                return False
             time.sleep(1)
             slept += 1
         logger.warning(f"Timeout waiting for {file_path} to finish transferring.")
+        return False
 
     def add_to_queue(self, file_path):
         db = SessionLocal()

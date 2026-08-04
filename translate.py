@@ -32,7 +32,7 @@ def translate_srt(srt_file, output_file, target_lang, api_key=None, base_url=Non
     # Initialize client
     client = OpenAI(
         api_key=api_key or os.environ.get("OPENAI_API_KEY", "dummy"),
-        base_url=base_url
+        base_url=base_url if base_url else None
     )
     
     subs = pysrt.open(srt_file)

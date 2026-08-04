@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.executors.pool import ThreadPoolExecutor
 import threading
 
 from . import crud, models, schemas
@@ -14,7 +15,10 @@ from .watcher import start_watcher
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Translatarr")
-scheduler = BackgroundScheduler()
+executors = {
+    'default': ThreadPoolExecutor(1)
+}
+scheduler = BackgroundScheduler(executors=executors)
 
 os.makedirs("templates", exist_ok=True)
 templates = Jinja2Templates(directory="templates")
