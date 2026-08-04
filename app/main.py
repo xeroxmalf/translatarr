@@ -10,9 +10,19 @@ import threading
 
 from . import crud, models, schemas
 from .database import SessionLocal, engine
+from sqlalchemy import inspect, text
 from .watcher import start_watcher
 
 models.Base.metadata.create_all(bind=engine)
+
+# Basic SQLite migration for schema updates
+inspector = inspect(engine)
+if "jobs" in inspector.get_table_names():
+    columns = [col["name"] for col in inspector.get_columns("jobs")]
+    if "replace_original" not in columns:
+        with engine.connect() as conn:
+            conn.execute(text("ALTER TABLE jobs ADD COLUMN replace_original BOOLEAN DEFAULT 0"))
+            conn.commit()
 
 app = FastAPI(title="Translatarr")
 executors = {
