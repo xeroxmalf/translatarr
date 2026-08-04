@@ -1,11 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translatarr</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: rgba(30, 41, 59, 0.7);
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: rgba(15, 23, 42, 0.8) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+        .card {
+            background: var(--surface-color);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+        }
+        .form-control, .form-select {
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(15, 23, 42, 0.9);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+            color: white;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #3b82f6, #6366f1);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 10px 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        .list-group-item {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 8px;
+            border-radius: 12px !important;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .list-group-item:hover {
+            transform: translateX(4px);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        .job-queue-container {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
 </head>
-<body class="bg-dark text-white">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Translatarr</a>
             <div class="collapse navbar-collapse">
@@ -55,10 +153,11 @@
                 </form>
             </div>
             <div class="col-md-7">
-                <h3>Job History & Queue</h3>
-                <ul class="list-group">
-                    {% for job in jobs %}
-                    <li class="list-group-item bg-secondary text-white">
+                <h4 class="mb-3" style="font-weight: 600;">Job Queue</h4>
+                <div class="job-queue-container">
+                    <ul class="list-group">
+                        {% for job in jobs %}
+                        <li class="list-group-item text-white">
                         <div class="d-flex w-100 justify-content-between align-items-center">
                             <div>
                                 <h5 class="mb-1">{{ job.file_path }}</h5>
@@ -83,9 +182,12 @@
                     </li>
                     {% endfor %}
                     {% if not jobs %}
-                    <li class="list-group-item bg-secondary text-white">No jobs in queue.</li>
+                        <div class="text-center p-5 text-muted">
+                            <i>No jobs in the queue. Add a movie to get started.</i>
+                        </div>
                     {% endif %}
                 </ul>
+                </div>
             </div>
         </div>
     </div>
