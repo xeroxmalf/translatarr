@@ -96,6 +96,10 @@ def shutdown_scheduler():
         app.state.watcher.stop()
         app.state.watcher.join()
 
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request, db: Session = Depends(get_db)):
     jobs = crud.get_jobs(db)
