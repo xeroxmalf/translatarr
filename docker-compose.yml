@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  translatarr:
+    build: .
+    image: translatarr:latest
+    container_name: translatarr
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - ./movies:/movies
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"
+    # Run the web UI by default
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,0 +1,13 @@
+ffmpeg-python
+openai-whisper
+openai
+tqdm
+pysrt
+fastapi
+uvicorn
+sqlalchemy
+jinja2
+edge-tts
+pydub
+apscheduler
+watchdog
