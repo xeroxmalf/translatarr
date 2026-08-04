@@ -45,6 +45,7 @@ def process_job_sync(job_id: int):
         api_key = crud.get_setting(db, "openai_api_key", os.environ.get("OPENAI_API_KEY", ""))
         llm_model = crud.get_setting(db, "llm_model", "gpt-3.5-turbo")
         base_url = crud.get_setting(db, "base_url", "")
+        tts_voice = crud.get_setting(db, "tts_voice", "es-ES-AlvaroNeural")
         
         cli_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "main.py")
         
@@ -59,7 +60,7 @@ def process_job_sync(job_id: int):
         if base_url:
             cmd.extend(["--base-url", base_url])
         if job.generate_audio:
-            cmd.append("--generate-audio")
+            cmd.extend(["--generate-audio", "--voice", tts_voice])
         if job.replace_original:
             cmd.append("--replace-original")
             

@@ -25,7 +25,10 @@ def generate_audio_from_srt(srt_file, output_audio_file, video_file, default_voi
     # Get total video duration to make sure our audio track is long enough
     try:
         info = mediainfo(video_file)
-        duration_ms = int(float(info.get('duration', 0)) * 1000)
+        duration_str = info.get('duration')
+        if not duration_str:
+            duration_str = "0"
+        duration_ms = int(float(duration_str) * 1000)
     except Exception as e:
         logger.warning(f"Could not get video duration, using subtitle end time. {e}")
         if subs:

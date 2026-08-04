@@ -133,6 +133,11 @@
                     <option value="true" {% if settings.get('auto_replace_original') == 'true' %}selected{% endif %}>Yes (Overwrite original file)</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label>TTS Voice Name</label>
+                <input type="text" name="tts_voice" class="form-control" value="{{ settings.get('tts_voice', 'es-ES-AlvaroNeural') }}" placeholder="e.g. fr-FR-HenriNeural">
+                <small class="text-muted">Must be a valid edge-tts voice name.</small>
+            </div>
 
             <button type="submit" class="btn btn-primary mt-3">Save Settings</button>
         </form>
