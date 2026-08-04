@@ -15,9 +15,8 @@ def get_media_info(input_file):
 
 def extract_audio(input_file, output_audio_file):
     logger.info(f"Extracting audio from {input_file} to {output_audio_file}")
-    cmd = [
-        'ffmpeg', '-y', '-i', input_file, '-q:a', '0', '-map', 'a:0', output_audio_file
-    ]
+    # Extract only the first audio stream to prevent issues with multi-audio MKVs
+    cmd = ['ffmpeg', '-y', '-i', input_file, '-q:a', '0', '-map', '0:a:0', output_audio_file]
     subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
     return output_audio_file
 

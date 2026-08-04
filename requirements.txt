@@ -1,9 +1,9 @@
-ffmpeg-python
 openai-whisper
 openai
 tqdm
 pysrt
 fastapi
+python-multipart
 uvicorn
 sqlalchemy
 jinja2
