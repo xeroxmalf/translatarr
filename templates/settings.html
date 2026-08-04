@@ -101,8 +101,18 @@
                 <input type="password" name="openai_api_key" class="form-control" value="{{ settings.get('openai_api_key', '') }}">
             </div>
             <div class="mb-3">
-                <label>LLM Model (e.g. gpt-4, gpt-3.5-turbo)</label>
+                <label>LLM Model Name</label>
                 <input type="text" name="llm_model" class="form-control" value="{{ settings.get('llm_model', 'gpt-3.5-turbo') }}">
+            </div>
+            <div class="mb-3">
+                <label>LLM Temperature</label>
+                <input type="number" step="0.1" min="0" max="2" name="llm_temperature" class="form-control" value="{{ settings.get('llm_temperature', '0.3') }}">
+                <small class="text-muted">A lower value (e.g. 0.2) is more deterministic. Higher values (e.g. 1.0) are more creative.</small>
+            </div>
+            <div class="mb-3">
+                <label>LLM System Prompt Override</label>
+                <textarea name="llm_system_prompt" class="form-control" rows="3" placeholder="You are a professional movie subtitle translator...">{{ settings.get('llm_system_prompt', '') }}</textarea>
+                <small class="text-muted">Leave empty to use the default optimized translation prompt.</small>
             </div>
             <div class="mb-3">
                 <label>Custom Base URL (For Ollama / Local Models)</label>

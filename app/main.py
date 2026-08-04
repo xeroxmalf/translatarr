@@ -46,6 +46,8 @@ def process_job_sync(job_id: int):
         llm_model = crud.get_setting(db, "llm_model", "gpt-3.5-turbo")
         base_url = crud.get_setting(db, "base_url", "")
         tts_voice = crud.get_setting(db, "tts_voice", "es-ES-AlvaroNeural")
+        llm_temperature = crud.get_setting(db, "llm_temperature", "0.3")
+        llm_system_prompt = crud.get_setting(db, "llm_system_prompt", "")
         
         cli_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "main.py")
         
@@ -59,6 +61,10 @@ def process_job_sync(job_id: int):
             cmd.extend(["--api-key", api_key])
         if base_url:
             cmd.extend(["--base-url", base_url])
+        if llm_temperature:
+            cmd.extend(["--temperature", llm_temperature])
+        if llm_system_prompt:
+            cmd.extend(["--system-prompt", llm_system_prompt])
         if job.generate_audio:
             cmd.extend(["--generate-audio", "--voice", tts_voice])
         if job.replace_original:

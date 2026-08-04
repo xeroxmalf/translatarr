@@ -21,6 +21,8 @@ def main():
     parser.add_argument("--llm-model", default="gpt-3.5-turbo", help="LLM model name")
     parser.add_argument("--api-key", help="API key for LLM")
     parser.add_argument("--base-url", help="Base URL for LLM API (e.g. for Ollama)")
+    parser.add_argument("--temperature", type=float, default=0.3, help="LLM generation temperature")
+    parser.add_argument("--system-prompt", help="Override default LLM system prompt")
     parser.add_argument("--generate-audio", action="store_true", help="Generate dubbed audio track using TTS")
     parser.add_argument("--replace-original", action="store_true", help="Replace original file with output file")
     parser.add_argument("--voice", default="es-ES-AlvaroNeural", help="Voice for TTS (edge-tts voice format)")
@@ -59,7 +61,9 @@ def main():
             target_lang=args.lang,
             api_key=args.api_key,
             base_url=args.base_url,
-            model_name=args.llm_model
+            model_name=args.llm_model,
+            temperature=args.temperature,
+            system_prompt_override=args.system_prompt
         )
         
         # Step 3: Generate Audio (Optional)
